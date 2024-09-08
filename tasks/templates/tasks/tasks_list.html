@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+<h1>To-Do List</h1>
+
+{% if tasks %}
+    <ul style="list-style: none; padding: 0;">
+        {% for task in tasks %}
+            <li style="background-color: #f9f9f9; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <h3 style="margin-top: 0;">{{ task.name }}</h3>
+                <p>{{ task.description }}</p>
+                <p>Status: {{ task.status }}</p>
+                <div style="display: flex; justify-content: space-between;">
+                    <a href="{% url 'tasks:update_task' task.id %}" style="color: #007bff; text-decoration: none;">Edit</a>
+                    <a href="{% url 'tasks:delete_task' task.id %}" style="color: #dc3545; text-decoration: none;">Delete</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No tasks yet. <a href="{% url 'tasks:create_task' %}" style="color: #007bff; text-decoration: none;">Add a new task</a>.</p>
+{% endif %}
+{% endblock %}
