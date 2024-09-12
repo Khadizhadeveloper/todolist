@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="form-container">
+      <h1>Create</h1>
+      <hr />
+        <style>
+        .form-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        /* Стиль для формы */
+        .register-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Группировка полей формы */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Стиль каждого поля */
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Стиль для меток */
+        .form-label {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Стиль для полей ввода */
+        input, select, textarea {
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #555;
+            outline: none;
+        }
+
+        /* Блок для ошибок формы */
+        .form-error-block {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        /* Стиль ошибок */
+        .form-error {
+            font-size: 0.875rem;
+            color: #e74c3c;
+        }
+
+        /* Кнопка отправки */
+        .btn-submit {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        /* Центровка блока действий формы */
+        .form-action {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        </style>
+
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Create Task</button>
+        </div>
+      </form>
+
+      <div class="text-center">
+        <a href="{% url 'tasks:tasks' %}" class="btn btn-default">Back to Task List</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

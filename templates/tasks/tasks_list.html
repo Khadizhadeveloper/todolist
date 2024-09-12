@@ -13,8 +13,11 @@
                 <p>{{ task.description }}</p>
                 <p>Status: {{ task.status }}</p>
                 <div style="display: flex; justify-content: space-between;">
-                    <a href="{% url 'tasks:update_task' task.id %}" style="color: #007bff; text-decoration: none;">Edit</a>
-                    <a href="{% url 'tasks:delete_task' task.id %}" style="color: #dc3545; text-decoration: none;">Delete</a>
+                      <a class="btn btn-success btn-sm" href="{% url 'tasks:update_task' task.id %}" style="color: #007bff; text-decoration: none;">Edit</a>
+                      <a class="btn btn-danger btn-sm"
+                         onclick="return confirm('Ты действительно хочешь удалить эту задачу?')"
+                         href="{% url 'tasks:delete_task' task.id %}" style="color: #dc3545; text-decoration: none;">Delete</a>
+
                 </div>
             </li>
         {% endfor %}

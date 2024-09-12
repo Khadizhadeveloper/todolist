@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        /* Основной блок формы */
+        .form-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стиль для меток и полей */
+        .form-label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select, textarea {
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #555;
+            outline: none;
+        }
+
+        /* Стиль для ошибок */
+        .form-error {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Кнопка отправки */
+        .btn-success {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Стили для ссылки "Сменить пароль" */
+        .password-change-link {
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .password-change-link:hover {
+            color: #0056b3;
+        }
+
+        hr {
+            margin: 2rem 0;
+        }
+    </style>
+
+    <div class="form-wrapper">
+        <form action="profile.html" method="post">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for f in form %}
+                <div class="form-field">
+                    <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:</label>
+                    {{ f }}
+                    <div class="form-error">{{ f.errors }}</div>
+                </div>
+            {% endfor %}
+            <hr>
+            <button type="submit" class="btn-success">Сохранить</button>
+            <p>
+                <a href="{% url 'users:password_change' %}" class="password-change-link">Сменить пароль</a>
+            </p>
+        </form>
+    </div>
+{% endblock content %}

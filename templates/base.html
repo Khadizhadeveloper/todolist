@@ -59,6 +59,22 @@
             <ul>
                 <li><a href="{% url 'tasks:tasks' %}">Home</a></li>
                 <li><a href="{% url 'tasks:create_task' %}">Add Task</a></li>
+
+                <!-- Добавляем условие внутри списка -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'users:profile' %}">{{ user.username }}</a></li>
+                    <li>
+                    <form method="post" action="{% url 'users:logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; text-decoration: underline;">
+                            Выйти
+                        </button>
+                    </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'users:login' %}">Войти</a></li>
+                    <li><a href="{% url 'users:register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

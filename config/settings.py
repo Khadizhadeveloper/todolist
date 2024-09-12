@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user.apps.UserConfig',
     'tasks.apps.TasksConfig',
 ]
 
@@ -50,7 +51,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL='user.User'
 ROOT_URLCONF = 'config.urls'
+LOGIN_REDIRECT_URL = 'tasks:tasks'
+LOGOUT_REDIRECT_URL = 'users:login'
+LOGIN_URL = 'users:login'
 
 TEMPLATES = [
     {
@@ -117,6 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
