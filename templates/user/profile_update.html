@@ -1,73 +1,78 @@
 {% extends 'base.html' %}
 
+{% block title %}Update Profile{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div class="form-container">
-        <h1>Update Task</h1>
-        <hr />
-
+    <div class="profile-form-container">
+        <h2 class="form-title">Update Profile</h2>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="form-group">
-                <button type="submit" class="btn-submit">Update Task</button>
+            <div class="form-action">
+                <button type="submit" class="btn-submit">Update</button>
             </div>
         </form>
-
-        <div class="text-center">
-            <a href="{% url 'tasks:tasks' %}" class="btn-submit" style="background-color: #007bff;">Back to Task List</a>
-        </div>
     </div>
 </div>
 
 <style>
-    .form-title {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        color: #333;
-    }
-
-    /* Стиль для формы */
-    .form-container {
+    /* Общие стили */
+    .container {
         max-width: 600px;
         margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .profile-form-container {
         background-color: #fff;
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Группировка полей формы */
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+    .form-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #333;
     }
 
-    /* Стиль каждого поля */
-    input, select, textarea {
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* Стили для меток */
+    label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    /* Стили для полей формы */
+    input {
+        width: 100%;
         padding: 0.75rem;
         font-size: 1rem;
         border: 1px solid #ddd;
         border-radius: 4px;
-        width: 100%;
         box-sizing: border-box;
         transition: border-color 0.3s;
     }
 
-    input:focus, select:focus, textarea:focus {
-        border-color: #555;
+    input:focus {
+        border-color: #007bff;
         outline: none;
     }
 
     /* Кнопка отправки */
     .btn-submit {
         display: inline-block;
-        background-color: #28a745;
+        background-color: #007bff;
         color: white;
         font-size: 1.1rem;
-        padding: 0.75rem 1.5rem;
+        padding: 0.75rem;
         border: none;
         border-radius: 4px;
         cursor: pointer;
@@ -76,9 +81,15 @@
     }
 
     .btn-submit:hover {
-        background-color: #218838;
+        background-color: #0056b3;
     }
 
+    /* Центровка блока действий */
+    .form-action {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
 </style>
 
 {% endblock %}

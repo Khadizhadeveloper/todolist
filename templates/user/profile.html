@@ -46,8 +46,7 @@
 
         /* Кнопка отправки */
         .btn-success {
-            display: inline-block;
-            background-color: #28a745;
+            background-color: #28a745; /* Зеленый цвет */
             color: white;
             font-size: 1.1rem;
             padding: 0.75rem 1.5rem;
@@ -61,13 +60,32 @@
             background-color: #218838;
         }
 
-        /* Стили для ссылки "Сменить пароль" */
-        .password-change-link {
+        /* Исправляем стиль для маленьких кнопок */
+        .btn-edit-profile {
+            background-color: #007bff; /* Синий цвет */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             font-size: 1rem;
-            color: #007bff;
             text-decoration: none;
-            transition: color 0.3s;
         }
+
+        .btn-edit-profile:hover {
+            background-color: #0056b3;
+        }
+
+        /* Стили для ссылки "Сменить пароль" */
+         .btn-password-change {
+            display: inline-block;
+            background-color: #6f42c1; /* Фиолетовый цвет */
+            color: white;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
 
         .password-change-link:hover {
             color: #0056b3;
@@ -91,8 +109,11 @@
             {% endfor %}
             <hr>
             <button type="submit" class="btn-success">Сохранить</button>
+
             <p>
-                <a href="{% url 'users:password_change' %}" class="password-change-link">Сменить пароль</a>
+                <a href="{% url 'users:profile_update' %}" class="btn-edit-profile">Edit Profile</a>
+
+                <a href="{% url 'users:password_change' %}" class="btn-password-change">Сменить пароль</a>
             </p>
         </form>
     </div>

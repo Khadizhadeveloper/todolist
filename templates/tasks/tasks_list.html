@@ -4,6 +4,10 @@
 
 {% block content %}
 <h1>To-Do List</h1>
+<form method="GET" action="">
+    <input type="text" name="q" placeholder="Search tasks..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
 
 {% if tasks %}
     <ul style="list-style: none; padding: 0;">
@@ -11,17 +15,52 @@
             <li style="background-color: #f9f9f9; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <h3 style="margin-top: 0;">{{ task.name }}</h3>
                 <p>{{ task.description }}</p>
-                <p>Status: {{ task.status }}</p>
-                <div style="display: flex; justify-content: space-between;">
-                      <a class="btn btn-success btn-sm" href="{% url 'tasks:update_task' task.id %}" style="color: #007bff; text-decoration: none;">Edit</a>
-                      <a class="btn btn-danger btn-sm"
-                         onclick="return confirm('Ты действительно хочешь удалить эту задачу?')"
-                         href="{% url 'tasks:delete_task' task.id %}" style="color: #dc3545; text-decoration: none;">Delete</a>
 
+                <!-- Статус с цветами -->
+                <p>Status:
+                    <span style="
+                        {% if task.status == 'Not started' %}
+                            background-color: #6c757d; color: white; /* Серый для "Не начато" */
+                        {% elif task.status == 'In progress' %}
+                            background-color: #007bff; color: white; /* Синий для "В процессе" */
+                        {% elif task.status == 'Completed' %}
+                            background-color: #28a745; color: white; /* Зелёный для "Выполнено" */
+                        {% endif %}
+                        padding: 0.2rem 0.5rem; border-radius: 4px;
+                    ">
+                        {{ task.status }}
+                    </span>
+                </p>
+
+                <p>Created on: {{ task.time_created|date:"d M Y H:i" }}</p>
+                <div style="display: flex; justify-content: space-between;">
+                    <a class="btn btn-success btn-sm" href="{% url 'tasks:update_task' task.id %}" style="color: #007bff; text-decoration: none;">Edit</a>
+                    <a class="btn btn-danger btn-sm"
+                       onclick="return confirm('Ты действительно хочешь удалить эту задачу?')"
+                       href="{% url 'tasks:delete_task' task.id %}" style="color: #dc3545; text-decoration: none;">Delete</a>
                 </div>
             </li>
         {% endfor %}
     </ul>
+
+    <!-- Pagination controls -->
+    <div class="pagination" style="margin-top: 2rem;">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">next</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% else %}
     <p>No tasks yet. <a href="{% url 'tasks:create_task' %}" style="color: #007bff; text-decoration: none;">Add a new task</a>.</p>
 {% endif %}

@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm
+from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UpdateUserForm
 from django.contrib.auth.views import LoginView,  PasswordChangeView
 
 
@@ -35,6 +35,16 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UpdateUserForm
+    template_name = 'user/profile_update.html'
+    success_url = reverse_lazy('users:profile')
+    def get_object(self, queryset=None):
+        return self.request.user
+
 
 
 class UserPasswordChangeView(PasswordChangeView):

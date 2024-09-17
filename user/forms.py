@@ -54,6 +54,12 @@ class ProfileUserForm(forms.ModelForm):
         }
 
 
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
+
+
 class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label="Старый пароль", widget=forms.PasswordInput)
     new_password1 = forms.CharField(label="Новый пароль", widget=forms.PasswordInput)
