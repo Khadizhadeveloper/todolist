@@ -42,11 +42,12 @@ class ProfileUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('username', 'email', 'first_name', 'last_name',)
         labels = {
             'email': 'E-mail',
             'first_name': 'Имя',
             'last_name': 'Фамилия',
+
         }
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),

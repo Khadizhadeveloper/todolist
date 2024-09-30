@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'tasks.apps.TasksConfig',
     'rest_framework',
     'api.apps.ApiConfig',
+    'drf_yasg'
 
 ]
 
@@ -84,10 +85,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tasks_db',
+        'USER': 'tasks_user',
+        'PASSWORD': 'tasks_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation

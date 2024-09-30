@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from tasks.models import Tasks
 from .forms import  TaskForm
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView
 
 
 class TasksListView(LoginRequiredMixin, ListView):
@@ -12,18 +12,24 @@ class TasksListView(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     paginate_by = 2
 
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        status_filter = self.request.GET.get('status')
+
+        queryset = Tasks.objects.filter(created_by=self.request.user)
+
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+
+        if status_filter:
+            queryset = queryset.filter(status=status_filter)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
+        context['status_choices'] = Tasks.STATUS_CHOICES  # Pass status choices to the template
         return context
-
-
-    def get_queryset(self):
-        query=self.request.GET.get('q')
-        queryset=Tasks.objects.filter(created_by=self.request.user)
-        if query:
-            queryset=queryset.filter(name__icontains=query)
-        return queryset
 
 
 class TasksUpdateView(LoginRequiredMixin,UpdateView):
