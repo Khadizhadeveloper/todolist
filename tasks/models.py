@@ -17,6 +17,16 @@ class Tasks(models.Model):
         choices=STATUS_CHOICES,
         default='Not started'
     )
+    due_date = models.DateField(
+        verbose_name='Срок выполнения',
+        null=True,
+        blank=True
+    )
+
+    completed = models.BooleanField(
+        default=False,
+        verbose_name='Завершена'
+    )
 
     created_by = models.ForeignKey(
         User,

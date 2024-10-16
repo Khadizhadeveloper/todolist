@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -30,6 +31,8 @@ class User(AbstractUser):
         blank=True,
         verbose_name="Дата рождение",
     )
+    email_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(max_length=20, blank=True, null=True)
 
     objects = UserManager()
 
@@ -38,5 +41,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
 
 

@@ -1,23 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.shortcuts import redirect
+
 from user.models import User
 from django.contrib.auth.views import AuthenticationForm
 
 
+
 class LoginUserForm(AuthenticationForm):
-    class Meta:
-        model = User
-        fields = ('username', 'password')
+    pass
+
 
 
 class RegisterUserForm(UserCreationForm):
-    username = forms.CharField(label='Логин')
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
-
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'username', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'email', 'username')
         labels = {
             'email': 'E-mail',
             'first_name': 'Имя',
@@ -34,6 +32,11 @@ class RegisterUserForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('Такая почта уже существует!')
         return email
+
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(label='Ваш Email', max_length=100)
 
 
 class ProfileUserForm(forms.ModelForm):

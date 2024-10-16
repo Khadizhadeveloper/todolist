@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Введите код подтверждения</h2>
+
+<!-- Сообщения об ошибках -->
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<!-- Форма для ввода кода подтверждения -->
+<form method="post">
+    {% csrf_token %}
+    <label for="verification_code">Код подтверждения:</label>
+    <input type="text" name="verification_code" id="verification_code" required>
+
+    <button type="submit">Подтвердить</button>
+</form>
+{% endblock %}

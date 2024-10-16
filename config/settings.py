@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,16 @@ SECRET_KEY = 'django-insecure-n%k6340j3vmghzw-=84upbi4x5nuvw@pqyncy0wk2bj=jpd-3!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['khadipro.local', '127.0.0.1']
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'blossomblessed9@gmail.com'  # Ваша почта
+EMAIL_HOST_PASSWORD = 'keiczusssppwgtfo '  # Пароль от почты
+DEFAULT_FROM_EMAIL = 'blossomblessed9@gmail.com'  # Отправитель
 
 
 # Application definition
@@ -44,6 +54,10 @@ INSTALLED_APPS = [
     'drf_yasg'
 
 ]
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Использовать базу данных для хранения сессий
+SESSION_COOKIE_HTTPONLY = True  # Безопасность: куки не будут доступны через JavaScript
+SESSION_COOKIE_SECURE = False   # Включайте True только при работе через HTTPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +93,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL вашего брокера сообщений
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Хранилище результатов задач
+CELERY_ACCEPT_CONTENT = ['json']  # Форматы, которые будет принимать Celery
+CELERY_TASK_SERIALIZER = 'json'  # Сериализация задач в формате JSON
+CELERY_BEAT_SCHEDULE={
+    'send_daily_reminders':{
+        'task':'user.tasks.send_daily_reminders',
+        'schedule': crontab(hour=7, minute=0),
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

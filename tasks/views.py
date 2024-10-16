@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
@@ -15,7 +17,7 @@ class TasksListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         status_filter = self.request.GET.get('status')
-
+        due_date = self.request.GET.get('due_date')
         queryset = Tasks.objects.filter(created_by=self.request.user)
 
         if query:
@@ -24,11 +26,19 @@ class TasksListView(LoginRequiredMixin, ListView):
         if status_filter:
             queryset = queryset.filter(status=status_filter)
 
+        if due_date:
+            try:
+                due_date_parsed = datetime.strptime(due_date, '%Y-%m-%d').date()
+                queryset = queryset.filter(due_date=due_date_parsed)
+            except ValueError:
+                pass
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['status_choices'] = Tasks.STATUS_CHOICES  # Pass status choices to the template
+        context['status_choices'] = Tasks.STATUS_CHOICES
+        # Pass status choices to the template
         return context
 
 
